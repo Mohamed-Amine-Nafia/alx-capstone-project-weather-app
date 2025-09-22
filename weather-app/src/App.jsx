@@ -10,14 +10,14 @@ function App() {
   const { inputValue, setInputValue } = useInput();
   const [isLoading, setLoading] = useState(false);
   const backgrounds = {
-    Rain: "bg-[url(./assets/rainy.jpg)]",
-    Drizzle: "bg-[url(./assets/rainy.jpg)]",
-    Clear: "bg-[url(./assets/clear.jpg)]",
-    Clouds: "bg-[url(./assets/cloudy.jpg)]",
-    Snow: "bg-[url(./assets/snowy.jpg)]",
-    Mist: "bg-[url(./assets/misty.jpg)]",
-    Haze: "bg-[url(./assets/haze.jpg)]",
-    Squall: "bg-[url(./assets/squall.jpg)]",
+    Rain: "bg-[url(./assets/rainy.webp)]",
+    Drizzle: "bg-[url(./assets/rainy.webp)]",
+    Clear: "bg-[url(./assets/clear.webp)]",
+    Clouds: "bg-[url(./assets/cloudy.webp)]",
+    Snow: "bg-[url(./assets/snowy.webp)]",
+    Mist: "bg-[url(./assets/misty.webp)]",
+    Haze: "bg-[url(./assets/haze.webp)]",
+    Squall: "bg-[url(./assets/squall.webp)]",
   };
 
   async function getData() {
@@ -47,7 +47,7 @@ function App() {
         >
           <div className="lg:h-full lg:w-3/5 flex flex-col lg:p-12 text-white lg:justify-between p-6">
             <h1 className="lg:text-md font-medium  text-xl">Weather</h1>
-            <div className="flex items-center gap-1  my-6">
+            <div className="flex items-center gap-1  my-6 bg-black/10 p-3 backdrop-blur-lg">
               <h2 className="lg:text-9xl text-6xl">
                 {weatherData ? Math.round(weatherData.main.temp) : null}°
               </h2>
