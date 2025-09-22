@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="w-screen h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden">
       <div
-        className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row`}
+        className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row lg:drop-shadow-2xl/70`}
       >
         <div className="lg:h-full lg:w-3/5 flex flex-col lg:p-16 text-white lg:justify-between p-6">
           <h1 className="lg:text-md font-medium  text-xl">Weather</h1>
