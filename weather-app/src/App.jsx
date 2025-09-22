@@ -2,7 +2,7 @@ import SearchBar from "./components/SearchBar";
 import WeatherDetails from "./components/WeatherDetails";
 
 function App() {
-  let checker = 1;
+  let checker = 2;
   const backgrounds = {
     1: "bg-[url(./assets/rainy.jpg)]",
     2: "bg-[url(./assets/clear.jpg)]",
@@ -14,7 +14,7 @@ function App() {
       <div
         className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row lg:drop-shadow-2xl/70`}
       >
-        <div className="lg:h-full lg:w-3/5 flex flex-col lg:p-16 text-white lg:justify-between p-6">
+        <div className="lg:h-full lg:w-3/5 flex flex-col lg:p-14 text-white lg:justify-between p-6">
           <h1 className="lg:text-md font-medium  text-xl">Weather</h1>
           <div className="flex items-center my-6">
             <h2 className="lg:text-9xl text-6xl">08°</h2>
@@ -26,7 +26,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="lg:h-full h-3/4 lg:w-2/5 bg-black/10 lg:p-10 p-6  backdrop-blur-md flex flex-col justify-between">
+        <div className="lg:h-full h-3/4 lg:w-2/5 bg-black/10 lg:p-10 p-6  backdrop-blur-lg flex flex-col justify-between">
           <SearchBar />
           <WeatherDetails />
         </div>
