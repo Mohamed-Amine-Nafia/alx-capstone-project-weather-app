@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherDetails from "./components/WeatherDetails";
 import { fetchWeatherData } from "./services/weatherData";
 import { DataContext } from "./context/dataContext";
 import { useInput } from "./store/useInput";
-
+import Loading from "./components/Loading";
 function App() {
   const [weatherData, setWeatherData] = useState();
   const { inputValue, setInputValue } = useInput();
+  const [isLoading, setLoading] = useState(false);
   const backgrounds = {
     Rain: "bg-[url(./assets/rainy.jpg)]",
     Drizzle: "bg-[url(./assets/rainy.jpg)]",
@@ -20,16 +21,26 @@ function App() {
   };
 
   async function getData() {
-    const data = await fetchWeatherData(inputValue);
-    setWeatherData(data);
-    console.log(data);
-    setInputValue("");
+    setLoading(true);
+    try {
+      const data = await fetchWeatherData(inputValue);
+      if (data) {
+        setWeatherData(data);
+        setInputValue("");
+        console.log(data);
+      }
+    } catch (err) {
+      console.error("Error fetching weather:", err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const checker = weatherData ? weatherData.weather[0].main : "Clear";
 
   return (
     <DataContext.Provider value={{ weatherData, getData }}>
+      {isLoading && <Loading />}
       <div className="w-screen h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden">
         <div
           className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row lg:drop-shadow-2xl/70`}
