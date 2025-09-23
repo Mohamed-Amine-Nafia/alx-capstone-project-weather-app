@@ -6,6 +6,7 @@ import { DataContext } from "./context/dataContext";
 import { useInput } from "./store/useInput";
 import Loading from "./components/Loading";
 import { fetchCurrentLocation } from "./services/currentLocation";
+
 function App() {
   const [weatherData, setWeatherData] = useState();
   const { inputValue, setInputValue } = useInput();
@@ -37,18 +38,22 @@ function App() {
   }, []);
 
   async function getData() {
+    if (!inputValue) {
+      return;
+    }
     setLoading(true);
     try {
       const data = await fetchWeatherData(inputValue);
-      if (data) {
-        setWeatherData(data);
-        setInputValue("");
-        console.log(data);
-      }
+      setTimeout(() => {
+        if (data) {
+          setWeatherData(data);
+          setInputValue("");
+          console.log(data);
+          setLoading(false);
+        }
+      }, 2000);
     } catch (err) {
       console.error("Error fetching weather:", err);
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -57,7 +62,7 @@ function App() {
   return (
     <DataContext.Provider value={{ weatherData, getData }}>
       {isLoading && <Loading />}
-      <div className="w-screen h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden">
+      <div className="relative w-screen h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden">
         <div
           className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row lg:drop-shadow-2xl/70`}
         >
