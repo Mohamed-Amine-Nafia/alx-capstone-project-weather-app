@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherDetails from "./components/WeatherDetails";
 import { fetchWeatherData } from "./services/weatherData";
 import { DataContext } from "./context/dataContext";
 import { useInput } from "./store/useInput";
 import Loading from "./components/Loading";
+import { fetchCurrentLocation } from "./services/currentLocation";
 function App() {
   const [weatherData, setWeatherData] = useState();
   const { inputValue, setInputValue } = useInput();
@@ -19,6 +20,21 @@ function App() {
     Haze: "bg-[url(./assets/haze.webp)]",
     Squall: "bg-[url(./assets/squall.webp)]",
   };
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        if (lat && lon) {
+          const city = await fetchCurrentLocation(lat, lon);
+          const data = await fetchWeatherData(city);
+          setWeatherData(data);
+        }
+      });
+    }
+  }, []);
 
   async function getData() {
     setLoading(true);
