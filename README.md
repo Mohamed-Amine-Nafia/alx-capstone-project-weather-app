@@ -30,8 +30,8 @@ A responsive weather application built with **React**, **Vite**, and **Tailwind 
 
 ## 📸 Screenshots
 
-![Weather App Screenshot](./assets/screenshot.png)  
-*Replace with your actual screenshot.*
+![Weather App Screenshot](./assets/Screenshot.png)  
+
 
 ---
 
