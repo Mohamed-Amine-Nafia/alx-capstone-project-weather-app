@@ -6,11 +6,15 @@ import { DataContext } from "./context/dataContext";
 import { useInput } from "./store/useInput";
 import Loading from "./components/Loading";
 import { fetchCurrentLocation } from "./services/currentLocation";
+import SuggestedCity from "./components/SuggestedCity";
+import NotificationMessage from "./components/NotificationMessage";
+import { useNotification } from "./store/useNotification";
 
 function App() {
   const [weatherData, setWeatherData] = useState();
   const { inputValue, setInputValue } = useInput();
   const [isLoading, setLoading] = useState(false);
+  const { Notification, setNotification } = useNotification();
   const backgrounds = {
     Rain: "bg-[url(./assets/rainy.webp)]",
     Drizzle: "bg-[url(./assets/rainy.webp)]",
@@ -20,6 +24,7 @@ function App() {
     Mist: "bg-[url(./assets/misty.webp)]",
     Haze: "bg-[url(./assets/haze.webp)]",
     Squall: "bg-[url(./assets/squall.webp)]",
+    Thunderstorm: "bg-[url(./assets/thunder.webp)]",
   };
 
   useEffect(() => {
@@ -29,29 +34,29 @@ function App() {
         const lon = position.coords.longitude;
 
         if (lat && lon) {
-          const city = await fetchCurrentLocation(lat, lon);
+          const { city, timeZone } = await fetchCurrentLocation(lat, lon);
           const data = await fetchWeatherData(city);
-          setWeatherData(data);
+          setWeatherData({ ...data, timeZone: timeZone });
         }
       });
     }
   }, []);
 
-  async function getData() {
-    if (!inputValue) {
+  async function getData(city) {
+    if (!inputValue && !city) {
+      setNotification(true);
       return;
     }
     setLoading(true);
     try {
-      const data = await fetchWeatherData(inputValue);
+      const data = await fetchWeatherData(city || inputValue);
       setTimeout(() => {
         if (data) {
-          setWeatherData(data);
+          setWeatherData({ ...data, timeZone: weatherData.timeZone });
           setInputValue("");
-          console.log(data);
           setLoading(false);
         }
-      }, 2000);
+      }, 1500);
     } catch (err) {
       console.error("Error fetching weather:", err);
     }
@@ -62,7 +67,7 @@ function App() {
   return (
     <DataContext.Provider value={{ weatherData, getData }}>
       {isLoading && <Loading />}
-      <div className="relative w-screen h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden">
+      <div className="relative w-screen sm:min-h-screen lg:h-screen bg-[#242424] flex justify-center items-center lg:overflow-hidden font-poppins">
         <div
           className={`flex lg:h-3/4  lg:w-3/4 bg-cover bg-center bg-no-repeat ${backgrounds[checker]} flex-col w-full h-full lg:flex-row lg:drop-shadow-2xl/70`}
         >
@@ -77,7 +82,9 @@ function App() {
                   {weatherData ? weatherData.name : null}
                 </h3>
                 <span className="lg:text-sm text-xs">
-                  06:09 - Sunday, 6 Oct'19
+                  {weatherData
+                    ? new Date(weatherData.timeZone).toLocaleString()
+                    : null}
                 </span>
               </div>
               <div className="flex h-fit">
@@ -95,9 +102,11 @@ function App() {
           </div>
           <div className="lg:h-full h-3/4 lg:w-2/5 bg-black/10 lg:p-10 p-8  backdrop-blur-lg flex flex-col justify-between">
             <SearchBar />
+            <SuggestedCity />
             <WeatherDetails />
           </div>
         </div>
+        {Notification && <NotificationMessage />}
       </div>
     </DataContext.Provider>
   );
