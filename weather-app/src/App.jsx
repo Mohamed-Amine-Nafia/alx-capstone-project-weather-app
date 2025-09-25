@@ -81,7 +81,7 @@ function App() {
               <h2 className="lg:text-9xl text-6xl">
                 {weatherData ? Math.round(weatherData.main.temp) : null}°
               </h2>
-              <div className="ml-4">
+              <div className="ml-4 whitespace-nowrap">
                 <h3 className="lg:text-2xl text-3xl">
                   {weatherData ? weatherData.name : null}
                 </h3>
