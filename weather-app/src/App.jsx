@@ -82,7 +82,7 @@ function App() {
                 {weatherData ? Math.round(weatherData.main.temp) : null}°
               </h2>
               <div className="ml-4 whitespace-nowrap">
-                <h3 className="lg:text-2xl text-3xl">
+                <h3 className="lg:text-2xl text-xl">
                   {weatherData ? weatherData.name : null}
                 </h3>
                 <span className="lg:text-sm text-xs">
@@ -93,7 +93,7 @@ function App() {
               </div>
               <div className="flex h-fit">
                 <img
-                  className="w-26 h-auto"
+                  className="lg:w-26 w-32 h-auto"
                   src={
                     weatherData
                       ? `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
