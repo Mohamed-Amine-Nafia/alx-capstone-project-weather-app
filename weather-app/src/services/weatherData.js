@@ -6,6 +6,5 @@ export async function fetchWeatherData(city) {
       import.meta.env.VITE_WEATHER_TOKEN
     }`
   );
-
   return data;
 }

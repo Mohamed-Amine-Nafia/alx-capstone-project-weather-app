@@ -49,10 +49,14 @@ function App() {
     }
     setLoading(true);
     try {
+      const { timeZone } = await fetchCurrentLocation(city);
       const data = await fetchWeatherData(city || inputValue);
       setTimeout(() => {
         if (data) {
-          setWeatherData({ ...data, timeZone: weatherData.timeZone });
+          setWeatherData({
+            ...data,
+            timeZone: timeZone,
+          });
           setInputValue("");
           setLoading(false);
         }
